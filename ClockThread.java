@@ -16,13 +16,12 @@ public ClockThread(int delay, GameWorld world, WorldFrame display) {
 	public void run(){
 		while(true){
 			try{
-				System.out.println("before delay");
-				Thread.sleep(delay);
-				System.out.println("after delay");
+				Thread.sleep(0);
 				world.clockTick();
 			}catch(InterruptedException e){
 				e.printStackTrace();
 			}
+			
 		}
 	}
 

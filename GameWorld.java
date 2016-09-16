@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class GameWorld {
 
-	int ticktock = 1;
+	private volatile int ticktock = 1;
 
 	public synchronized void clockTick() {
 
@@ -14,7 +14,7 @@ public class GameWorld {
 			System.out.println("tick");
 		} else {
 			ticktock = 1;
-			System.out.println("tock");
+			System.out.println(" tock");
 		}
 	}
 

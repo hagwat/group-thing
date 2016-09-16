@@ -53,8 +53,8 @@ public class Main {
 		int playerID = world.registerAvatar();
 		WorldFrame display = new WorldFrame();
 		ClockThread clock = new ClockThread(50, world, display);
-System.out.println("about to start clock");
-		clock.start();
+	
+clock.start();		
 
 
 
