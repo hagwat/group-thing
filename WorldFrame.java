@@ -16,26 +16,26 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import swen222_group_project.control.Controller;
+import swen222_group_project.game.GameWorld;
 
 
 public class WorldFrame extends JFrame{
 
 	private JComponent menuBar;
 	private JPanel canvas;
-	private Controller ctrl;
+	private GameWorld world;
 
-	public WorldFrame(Controller ctrl) {
+	public WorldFrame(GameWorld world) {
 		super("Game");
 
-		this.ctrl = ctrl;
+		this.world = world;
 
 		// sets border layout
 		getContentPane().setLayout(new BorderLayout());
 
 		//add starting canvas
 
-		canvas = new StartCanvas(ctrl);
+		canvas = new StartCanvas(this);
 		add(canvas, BorderLayout.CENTER);
 
 		// what to do on close
@@ -60,7 +60,7 @@ public class WorldFrame extends JFrame{
 
 		// visibility
 		pack();
-		setResizable(true);
+		setResizable(false);
 		setVisible(true);
 
 
@@ -71,4 +71,21 @@ public class WorldFrame extends JFrame{
 		return new Dimension(500, 500);
 	}
 
+	public void changeCanvas(JPanel canvas) {
+		this.remove(this.canvas);
+		this.canvas = canvas;
+		this.add(canvas);
+		pack();
+	}
+
+	public void handle(String cmd){
+		if(cmd.equals("Start")){
+			System.out.println("START BUTTON");
+			changeCanvas(new MainCanvas(world));
+		}
+	}
+
+	public static void main(String[] args){
+		new WorldFrame(new GameWorld());
+	}
 }

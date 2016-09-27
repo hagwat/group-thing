@@ -1,8 +1,10 @@
 package swen222_group_project;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.UnknownHostException;
 
 import swen222_group_project.control.ClockThread;
 import swen222_group_project.control.Master;
@@ -18,7 +20,7 @@ public class Main {
 
 	@SuppressWarnings("unused")
 	public static void main(String[] args) {
-		String filename = null;
+		String filename = "hello";
 		boolean server = false;
 		int nclients = 0;
 		String url = null;
@@ -37,6 +39,7 @@ public class Main {
 					server = true;
 					nclients = Integer.parseInt(args[++i]);
 				} else if (arg.equals("-connect")) {
+					System.out.println("client");
 					url = args[++i];
 				} else {
 					filename = args[i];
@@ -51,10 +54,10 @@ public class Main {
 		} else if (url != null && gameClock != DEFAULT_CLK_PERIOD) {
 			System.out.println("Cannot overide clock period when connecting to server.");
 			System.exit(1);
-		//} else if (url == null && filename == null) {
-		//	System.out.println("Board file must be provided for single user, or server mode.");
-		//	System.exit(1);
-		}
+		} /*else if (url == null && filename == null) {
+			System.out.println("Board file must be provided for single user, or server mode.");
+			System.exit(1);
+		} */
 
 		try {
 			if (server) {
@@ -92,7 +95,7 @@ public class Main {
 				// Wait for a socket
 				Socket s = ss.accept();
 				System.out.println("ACCEPTED CONNECTION FROM: " + s.getInetAddress());
-				int uid = game.registerAvatar();
+				int uid = game.registerPlayer();
 				connections[--nclients] = new Master(s, uid, broadcastClock, game);
 				connections[nclients].start();
 				if (nclients == 0) {
@@ -117,9 +120,9 @@ public class Main {
 	private static void singleUserGame(int gameClock, GameWorld world)
 			throws IOException {
 
-		int playerID = world.registerAvatar();
+		int playerID = world.registerPlayer();
 
-		WorldFrame display = new WorldFrame(null);
+		WorldFrame display = new WorldFrame(world);
 
 		ClockThread clock = new ClockThread(50, world, display);
 
@@ -191,5 +194,19 @@ public class Main {
 			Thread.sleep(delay);
 		} catch(InterruptedException e){
 		}
+	}
+	
+	/**
+	 * returns the ip address of this machine converted to a string.
+	 * @return
+	 */
+	public static String getAddy(){
+		try {
+			InetAddress ip = InetAddress.getLocalHost();
+			return ip.toString();
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		}
+			return null;
 	}
 }

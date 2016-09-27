@@ -5,18 +5,21 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
+//<<<<<<< HEAD:src/swen222_group_project/Master.java
+//=======
 import swen222_group_project.game.GameWorld;
 
 //testing
+//>>>>>>> 37646a1cb650b70ab7752d315bf164c287f66770:src/swen222_group_project/control/Master.java
 
 public class Master extends Thread{
-	private final GameWorld world;
+	private final GameWorld board;
 	private final int broadcastClock;
 	private final int uid;
 	private final Socket socket;
 
 	public Master(Socket socket, int uid, int broadcastClock, GameWorld board) {
-		this.world = board;
+		this.board = board;
 		this.broadcastClock = broadcastClock;
 		this.socket = socket;
 		this.uid = uid;
@@ -31,25 +34,23 @@ public class Master extends Thread{
 			boolean exit=false;
 			while(!exit) {
 				try {
-					/*if(input.available() != 0) {
+					if(input.available() != 0) {
 						// read direction event from client.
 						int dir = input.readInt();
-						switch(dir) {TODO read client input and move players on the board accordingly
+						switch(dir) {//TODO read client input and move players on the board accordingly
 							case 1:
-								board.player(uid).moveUp();
-								break;
-							case 2:
-								board.player(uid).moveDown();
+								board.getPlayer(uid).jump();
 								break;
 							case 3:
-								board.player(uid).moveRight();
+								board.getPlayer(uid).moveRight();
 								break;
 							case 4:
-								board.player(uid).moveLeft();
+								board.getPlayer(uid).moveLeft();
 								break;
 						}
-					}*/
-					byte[] state = world.toByteArray();
+					}
+					//board.player.move();
+					byte[] state = board.toByteArray();
 					output.writeInt(state.length);
 					output.write(state);
 					output.flush();

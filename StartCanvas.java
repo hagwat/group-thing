@@ -10,21 +10,24 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
-
-import swen222_group_project.control.Controller;
+import javax.swing.JLabel;
 
 public class StartCanvas extends JPanel {
 
-	public StartCanvas(Controller ctrl){
+	public StartCanvas(WorldFrame frame){
 
+
+		JButton helpBtn = new JButton("Help");
 
 		JButton startBtn = new JButton("Start");
 		startBtn.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				ctrl.handle("Start");
+				frame.handle("Start");
 			}
 		});
 		add(startBtn);
+		add(helpBtn);
+
 		}
 
 	@Override
@@ -33,7 +36,5 @@ public class StartCanvas extends JPanel {
 		g.fillRect(0, 0, getWidth(), getHeight() / 2);
 		g.setColor(Color.RED);
 		g.fillRect(0, getHeight() / 2, getWidth(), getHeight() / 2);
-
 	}
-
 }
